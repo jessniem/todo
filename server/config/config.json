@@ -2,11 +2,10 @@
   "development": {
     "username": "jessica.nordin",
     "password": null,
-    "database": "todo-dev",
+    "database": "todo-db",
     "host": "127.0.0.1",
     "port": 5432,
-    "dialect": "postgres",
-    "use_env_variable": "postgres://jessica.nordin@postgres:5432/development"
+    "dialect": "postgres"
   },
   "test": {
     "username": "root",

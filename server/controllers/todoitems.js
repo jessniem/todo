@@ -22,7 +22,7 @@ module.exports = {
       .then(todoItem => {
         if(!todoItem) {
           return res.status(404).send({
-            message: 'TodoItem not found',
+            message: 'Todo not found',
           });
         }
         return todoItem.update({
@@ -46,13 +46,15 @@ module.exports = {
       .then(todoItem => {
         if (!todoItem) {
           return res.status(404).send({
-            message: 'TodoItem Not Found',
+            message: 'Todo Not Found',
           });
         }
 
         return todoItem
           .destroy()
-          .then(() => res.status(200).send({ message: 'todoItem deleted successfully' }))
+          .then(() => res.status(200).send({
+            message: 'Todo deleted successfully'
+          }))
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));

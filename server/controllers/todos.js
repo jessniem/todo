@@ -38,7 +38,7 @@ module.exports = {
       .then(todo => {
         if (!todo) {
           return res.status(404).send({
-            message: 'Todo not found',
+            message: 'Todo list not found',
           });
         }
         return res.status(200).send(todo);
@@ -56,7 +56,7 @@ module.exports = {
       .then(todo => {
         if(!todo) {
           return res.status(404).send({
-            message: 'Todo not found',
+            message: 'Todo list not found',
           });
         }
         return todo.update({
@@ -72,12 +72,14 @@ module.exports = {
       .then(todo => {
         if(!todo) {
           return res.status(400).send({
-            message: 'Todo Not Found',
+            message: 'Todo list not found',
           });
         }
         return todo
           .destroy()
-          .then(() => res.status(200).send({ message: 'Todo list deleted successfully' }))
+          .then(() => res.status(200).send({
+            message: 'Todo list deleted successfully'
+          }))
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));

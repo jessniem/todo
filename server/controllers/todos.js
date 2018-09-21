@@ -8,7 +8,7 @@ module.exports = {
         title: req.body.title,
       })
       .then((todo) => res.status(201).send(todo))
-      // todo Update error handling
+      // todo: Update error handling
       .catch((error) => res.status(400).send(error));
   },
   // list(req, res) {

@@ -1,5 +1,21 @@
 import React, { Component } from 'react';
 import '../App.css';
+import styled from 'styled-components';
+
+const Todo = styled.div`
+  display: flex;
+  justify-content: flex-start; 
+  align-items: center; 
+  background: #EEEBF0;
+  margin: 2px;
+`;
+const TodoText = styled.div`
+  display: inline;
+  display: flex;
+  padding: 5px;
+  font: 0.9rem;
+`;
+
 
 class todoList extends Component {
   constructor() {
@@ -30,28 +46,64 @@ class todoList extends Component {
             "todoId": 6
           }
         ]
-      }
+      },
+      currentList:
+        [
+          {
+            "id": 1,
+            "content": "Buy presents",
+            "complete": true,
+            "createdAt": "2018-09-21T05:49:42.258Z",
+            "updatedAt": "2018-09-24T09:39:04.875Z",
+            "todoId": 6
+          },
+          {
+            "id": 2,
+            "content": "Eat gingerbread",
+            "complete": false,
+            "createdAt": "2018-09-21T05:49:42.258Z",
+            "updatedAt": "2018-09-24T09:39:04.875Z",
+            "todoId": 6
+          }
+        ]
     }
 
     const list = Object.values(this.state.currentTodo.todoItems);
-
-    // Object.entries(list).forEach(
-    //   ([key, value]) => console.log(key, value)
-    // );
-    // console.log(JSON.stringify(list))
+    console.log("json", JSON.stringify(list))
 
   }
 
+  handleCompleteStatus(e) {
+    const target = e.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.complete;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
   render() {
+    let todos = this.state.currentList;
+    let title = this.state.currentTodo.title;
+    // let todoItems = this.state.currentTodo.todoItems;
+
     return (
       <fieldset className="container">
-        <legend>Todo list: {this.state.currentTodo.title}</legend>
+        <legend>Todo list: {title}</legend>
         <div>
-          {JSON.stringify(this.state.currentTodo.todoItems)}
         </div>
-        <div>
-          this.state.currentTodo
-        </div>
+          {todos.map(todo =>
+            <Todo>
+              <TodoText key={todo.id}>{todo.content}</TodoText>
+              <input
+                name="complete"
+                type="checkbox"
+                checked={todo.complete}
+                onChange={this.handleCompleteStatus}
+                 />
+            </Todo>
+          )}
 
       </fieldset>
     )

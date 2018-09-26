@@ -13,11 +13,6 @@ const ListContainer = styled.fieldset`
 `;
 const TodoTitle = styled.div`
   padding: 5px;
-  display: flex;
-  justify-content: flex-start; 
-  align-items: center; 
-  background: #EEEBF0;
-  margin: 2px;
 `;
 const SmallText = styled.i`
   font-size: 0.8rem;
@@ -104,8 +99,11 @@ class TodoLists extends React.Component {
     //   }
     // };
 
-    const todoArr = this.state.todoLists.map(list => console.log("list", list.title));
+    // const todoArr = this.state.todoLists.map(list => console.log("list", list.title));
 
+  }
+  componentDidMount() {
+    this.fetchTodos();
   }
 
   onClick(e) {
@@ -115,24 +113,45 @@ class TodoLists extends React.Component {
     console.log("test", this.state);
   }
 
+  fetchTodos() {
+    fetch(`http://localhost:8001/api/todos`)
+      .then(res => res.json())
+      .then(
+        data =>
+          this.setState({
+            todos: data,
+            isLoading: false,
+          })
+      )
+      .catch(error => this.setState({ error, isLoading: false }));
+  }
+
   render() {
   const todoLists = this.state.todoLists;
   const { isLoading, todos, error } = this.state;
     // fetch('http://localhost:8001/api/todos').then (response => response.json()).then(data => console.log("data:",data));
     return(
-
-
-        <fieldset className="container">
-
-          <legend>Select Todo List</legend>
-          {todoLists.map(list =>
-            <TodoTitle onClick={this.onClick} name="selectedList" >{list.title} (<SmallText>{list.todoItems.length === 0 ? "empty" : list.todoItems.length}</SmallText>)</TodoTitle>
+      <React.Fragment>
+        { error ? <p>{error.message}</p> : null }
+        {!isLoading ? (
+          todos.map(todo => {
+          const { title, id, createdAt } = todo;
+          return(
+            <div key={id}>
+              <p>Title: {title}</p>
+              <p>Created: {createdAt}</p>
+              <hr />
+            </div>
+          );
+        })
+          ) : (
+          <h3>Loading...</h3>
           )}
-          <div>
-            {/*${JSON.stringify(this.state.todoLists)}*/}
-          </div>
-        </fieldset>
-      )
+
+      </React.Fragment>
+
+
+      );
   }
 
 }

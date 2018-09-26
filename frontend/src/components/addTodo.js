@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, { Component }  from 'react';
 import styled from 'styled-components';
 import '../App.css';
 
@@ -15,17 +15,40 @@ const Form = styled.form`
   flex-direction: column;
 `;
 
-const AddTodo = () => {
-  return(
-    <fieldset className="container">
-      <legend>Add todo</legend>
-      <Form>
-        <Input placeholder="Add Task"></Input>
-        <Input placeholder="Todo Date" type="date"></Input>
-        <Button type="submit">Add</Button>
-      </Form>
-    </fieldset>
-  )
+class AddTodo extends Component {
+  constructor() {
+    super();
+    this.state = {
+      todoListId: 0,
+      task: "",
+      date: ""
+    };
+  }
+
+  handleChange(e) {
+      this.setState({
+      [e.target.name]: e.target.value});
+  }
+
+  handleSubmit(e) {
+    console.log(`Todo added`)   ;
+    e.preventDefault();
+  }
+
+
+  render() {
+    console.log(this.state);
+        return(
+            <fieldset className="container">
+              <legend>Add todo</legend>
+              <Form onSubmit={e => this.handleSubmit(e)}>
+                <Input placeholder="Add Task" name="task"  onChange={e => this.handleChange(e)}></Input>
+                <Input placeholder="Todo Date" type="date" name="date" onChange={e => this.handleChange(e)}></Input>
+                <Button type="submit" value="Submit">Add</Button>
+              </Form>
+            </fieldset>
+          )
+      }
 };
 
 export default AddTodo;

@@ -35,10 +35,10 @@ class todoList extends Component {
 
     const list = Object.values(this.state.currentTodo.todoItems);
 
-    Object.entries(list).forEach(
-      ([key, value]) => console.log(key, value)
-    );
-    console.log(JSON.stringify(list))
+    // Object.entries(list).forEach(
+    //   ([key, value]) => console.log(key, value)
+    // );
+    // console.log(JSON.stringify(list))
 
   }
 

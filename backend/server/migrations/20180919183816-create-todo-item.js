@@ -11,6 +11,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      todoDate: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       complete: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

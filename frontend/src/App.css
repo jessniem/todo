@@ -5,14 +5,9 @@
   justify-content: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 80px;
   padding: 20px;
   color: white;
 }
@@ -23,6 +18,15 @@
 
 .large-font {
   font-size: large;
+}
+
+.container {
+  padding: 20px;
+  margin: 10px;
+  border: 1px solid black;
+  max-width: 250px;
+  display: flex;
+  justify-content: center;
 }
 
 @keyframes App-logo-spin {

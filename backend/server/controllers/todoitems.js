@@ -5,6 +5,7 @@ module.exports = {
   create(req, res) {
     return TodoItem.create({
       content: req.body.content,
+      // todoDate: req.body.todoDate,
       todoId: req.params.todoId,
     })
       .then(todoItem => res.status(201).send(todoItem))
@@ -27,6 +28,7 @@ module.exports = {
         }
         return todoItem.update({
           content: req.body.content || todoItem.content,
+          // todoDate: req.body.todoDate || todoItem.todoDate,
           complete: req.body.complete || todoItem.complete,
         })
           .then(updatedTodoItem => res.status(200).send(updatedTodoItem))

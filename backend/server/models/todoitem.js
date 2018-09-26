@@ -1,9 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
   const TodoItem = sequelize.define('TodoItem', {
     content: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+    // todoDate: {
+    //   type: DataTypes.STRING,
+    //   allowNull: true,
+    // },
     complete: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,

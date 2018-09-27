@@ -38,7 +38,6 @@ class AddTodo extends Component {
 
 
   render() {
-    // console.log(this.state);
         return(
             <fieldset className="container">
               <legend>Add todo</legend>

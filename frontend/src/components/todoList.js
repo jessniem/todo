@@ -20,57 +20,30 @@ const TodoText = styled.div`
 class todoList extends Component {
   constructor() {
     super();
-
-    // TODO: get connection working
+    
     this.state = {
-      currentTodo: {
-        "id": 6,
-        "title": "Todo before X-mas",
-        "createdAt": "2018-09-21T05:40:33.593Z",
-        "updatedAt": "2018-09-21T06:11:43.160Z",
-        "todoItems": [
-          {
-            "id": 1,
-            "content": "Buy presents",
-            "complete": false,
-            "createdAt": "2018-09-21T05:49:42.258Z",
-            "updatedAt": "2018-09-24T09:39:04.875Z",
-            "todoId": 6
-          },
-          {
-            "id": 2,
-            "content": "Eat gingerbread",
-            "complete": false,
-            "createdAt": "2018-09-21T05:49:42.258Z",
-            "updatedAt": "2018-09-24T09:39:04.875Z",
-            "todoId": 6
-          }
-        ]
-      },
-      currentList:
-        [
-          {
-            "id": 1,
-            "content": "Buy presents",
-            "complete": true,
-            "createdAt": "2018-09-21T05:49:42.258Z",
-            "updatedAt": "2018-09-24T09:39:04.875Z",
-            "todoId": 6
-          },
-          {
-            "id": 2,
-            "content": "Eat gingerbread",
-            "complete": false,
-            "createdAt": "2018-09-21T05:49:42.258Z",
-            "updatedAt": "2018-09-24T09:39:04.875Z",
-            "todoId": 6
-          }
-        ]
+      currentTodo: {},
+      currentList: []
     }
+  }
 
-    const list = Object.values(this.state.currentTodo.todoItems);
-    console.log("json", JSON.stringify(list))
+  wholeList(data) {
+    this.setState({
+      currentTodo: data
+    });
+    this.setState({
+      currentList: this.state.currentTodo.todoItems
+    });
+    console.log("currentTodo", this.state.currentTodo);
+    console.log("currentList", this.state.currentList);
+  }
 
+  componentDidMount() {
+    fetch('http://localhost:8001/api/todos/6')
+              .then (response => response.json())
+              .then(data => {
+                this.wholeList(data);
+              });
   }
 
   handleCompleteStatus(e) {
@@ -86,7 +59,7 @@ class todoList extends Component {
   render() {
     let todos = this.state.currentList;
     let title = this.state.currentTodo.title;
-    // let todoItems = this.state.currentTodo.todoItems;
+    // const { isLoading, todos, error } = this.state;
 
     return (
       <fieldset className="container">
@@ -94,8 +67,8 @@ class todoList extends Component {
         <div>
         </div>
           {todos.map(todo =>
-            <Todo>
-              <TodoText key={todo.id}>{todo.content}</TodoText>
+            <Todo key={todo.id}>
+              <TodoText>{todo.content}</TodoText>
               <input
                 name="complete"
                 type="checkbox"

@@ -33,6 +33,7 @@ class TodoLists extends React.Component {
       isLoading: true,
       todos: [],
       error:null,
+      todoListArr: [],
       todoLists:
         [
           {
@@ -82,20 +83,7 @@ class TodoLists extends React.Component {
         ]
     }
 
-    // componentDidMount() {
-    //   axios
-    //     .get('http://localhost:8001/api/todos', {
-    //       headers: {
-    //         'Content-Type': 'application/x-www-form-urlencoded',
-    //         "Access-Control-Allow-Origin": "*",
-    //         'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
-    //       }
-    //     })
-    //     .then(res => {
-    //       console.log(res);
-    //     });
-    //
-    // }
+
 
     // const config = {
     //   headers: {
@@ -104,7 +92,7 @@ class TodoLists extends React.Component {
     //   }
     // };
 
-    const todoArr = this.state.todoLists.map(list => console.log("list", list.title));
+    // const todoArr = this.state.todoLists.map(list => console.log("list", list.title));
 
   }
 
@@ -115,12 +103,31 @@ class TodoLists extends React.Component {
     console.log("test", this.state);
   }
 
+
+  // componentDidMount() {
+  //       axios
+  //         .get('http://localhost:8001/api/todos', {
+  //           headers: {
+  //             'Content-Type': 'application/x-www-form-urlencoded',
+  //             "Access-Control-Allow-Origin": "*",
+  //             'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS'
+  //           }
+  //         })
+  //         .then(res => {
+  //           console.log("HÄR", res);
+  //         });
+  //
+  //     }
+
   render() {
   const todoLists = this.state.todoLists;
   const { isLoading, todos, error } = this.state;
-    // fetch('http://localhost:8001/api/todos').then (response => response.json()).then(data => console.log("data:",data));
+    fetch('http://localhost:8001/api/todos')
+      .then (response => response.json())
+      .then(data => {
+        console.log("data:",data);
+      });
     return(
-
 
         <fieldset className="container">
 

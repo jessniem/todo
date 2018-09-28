@@ -6,6 +6,7 @@ module.exports = (app) => {
     message: 'The todo API',
   }));
 
+  // todo list
   app.post('/api/todos', todosController.create);
   app.get('/api/todos', todosController.list);
   app.post('/api/todos/:todoId/items', todoItemsController.create);
@@ -13,6 +14,7 @@ module.exports = (app) => {
   app.patch('/api/todos/:todoId', todosController.update);
   app.delete('/api/todos/:todoId', todosController.destroy);
 
+  // todo item
   app.post('/api/todos/:todoId/items', todoItemsController.create);
   app.patch('/api/todos/:todoId/items/:todoItemId', todoItemsController.update);
   app.delete('/api/todos/:todoId/items/:todoItemId', todoItemsController.destroy);

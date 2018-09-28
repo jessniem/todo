@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-// import { Fetch } from 'react-request';
 
 const ListContainer = styled.fieldset`
   padding: 5px;
@@ -28,10 +27,10 @@ class TodoLists extends React.Component {
     super();
 
     this.state = {
-      selectedList: "",
-      isLoading: true,
-      todos: [],
+      isLoading: false,
       error:null,
+      selectedList: 3,
+      todos: [],
       todoListArr: [],
     }
   }
@@ -43,38 +42,51 @@ class TodoLists extends React.Component {
     console.log("test", this.state);
   }
 
-  test(data) {
+  // todo: remove duplicate funcs
+  setList(data) {
     this.setState({
-      todoListArr: data
+      todoListArr: data,
+      isLoading: false
     });
-    console.log("HÄR", this.state.todoListArr);
+    console.log("todoListArr", this.state.todoListArr);
   }
 
   componentDidMount() {
-
+    this.setState({ isLoading: true});
     fetch('http://localhost:8001/api/todos')
-          .then (response => response.json())
-          .then(data => {
-            this.test(data);
-          });
+      .then (response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Something went wrong');
+        }
+      })
+      .then(data => {
+        this.setList(data);
+      })
+      .catch(error => this.setState({
+        error, isLoading: false
+      }));
   }
 
   render() {
   const todoLists = this.state.todoListArr;
   const { isLoading, todos, error } = this.state;
+  if(isLoading){
+    return <p>Loading...</p>;
+  }
     return(
+      <fieldset className="container">
 
-        <fieldset className="container">
-
-          <legend>Select Todo List</legend>
-          {todoLists.map(list =>
-            <TodoTitle onClick={this.onClick} name="selectedList" key={list.id} >{list.title} (<SmallText>{list.todoItems.length === 0 ? "empty" : list.todoItems.length}</SmallText>)</TodoTitle>
-          )}
-          <div>
-            {/*${JSON.stringify(this.state.todoLists)}*/}
-          </div>
-        </fieldset>
-      )
+        <legend>Select Todo List</legend>
+        {todoLists.map(list =>
+          <TodoTitle onClick={this.onClick} name="selectedList" key={list.id} >{list.title} (<SmallText>{list.todoItems.length === 0 ? "empty" : list.todoItems.length}</SmallText>)</TodoTitle>
+        )}
+        <div>
+          {/*${JSON.stringify(this.state.todoLists)}*/}
+        </div>
+      </fieldset>
+    )
   }
 
 }

@@ -1,19 +1,27 @@
-import React, { Component } from 'react';
-import './App.css';
-import AddTodo from './Components/addTodo';
-import TodoLists from './Components/todoLists';
-import TodoList from './Components/todoList';
+import React from "react";
+import "./App.css";
+import AddTodo from "./Components/addTodo";
+import TodoLists from "./Components/todoLists";
 
-class App extends Component {
+class App extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      data: []
+    };
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <h1>Todo</h1>
         </header>
-        <TodoLists/>
-        <TodoList/>
-        <AddTodo/>
+        <TodoLists
+          selected={this.selected}
+          itemId={this.state.selectedTodoItemId}
+        />
       </div>
     );
   }

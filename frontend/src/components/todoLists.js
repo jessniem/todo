@@ -1,25 +1,26 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
+import List from "./list";
 
-const ListContainer = styled.fieldset`
-  padding: 5px;
-  margin: 10px;
-  border: 1px solid black;
-  max-width: 250px;
-  display: flex;
-  justify-content: center; 
-`;
+// const ListContainer = styled.fieldset`
+//   padding: 5px;
+//   margin: 10px;
+//   border: 1px solid black;
+//   max-width: 250px;
+//   display: flex;
+//   justify-content: center;
+// `;
 const TodoTitle = styled.div`
   padding: 5px;
   display: flex;
-  justify-content: flex-start; 
-  align-items: center; 
-  background: #EEEBF0;
+  justify-content: flex-start;
+  align-items: center;
+  background: #eeebf0;
   margin: 2px;
 `;
 const SmallText = styled.i`
   font-size: 0.8rem;
-  color: #5E5D5F;
+  color: #5e5d5f;
 `;
 
 class TodoLists extends React.Component {
@@ -28,67 +29,71 @@ class TodoLists extends React.Component {
 
     this.state = {
       isLoading: false,
-      error:null,
-      selectedList: 3,
-      todos: [],
-      todoListArr: [],
-    }
+      error: null,
+      listArr: [],
+      listId: null,
+      selList: {}
+    };
   }
 
-  onClick(e) {
+  click = id => {
     this.setState({
-      [e.target.name]: e.target.value
+      listId: id
     });
-    console.log("test", this.state);
-  }
-
-  // todo: remove duplicate funcs
-  setList(data) {
-    this.setState({
-      todoListArr: data,
-      isLoading: false
-    });
-    console.log("todoListArr", this.state.todoListArr);
-  }
+  };
 
   componentDidMount() {
-    this.setState({ isLoading: true});
-    fetch('http://localhost:8001/api/todos')
-      .then (response => {
+    this.setState({ isLoading: true });
+    fetch("http://localhost:8001/api/todos")
+      .then(response => {
         if (response.ok) {
           return response.json();
         } else {
-          throw new Error('Something went wrong');
+          throw new Error("Something went wrong");
         }
       })
       .then(data => {
         this.setList(data);
       })
-      .catch(error => this.setState({
-        error, isLoading: false
-      }));
+      .catch(error =>
+        this.setState({
+          error,
+          isLoading: false
+        })
+      );
   }
+  setList = data => {
+    this.setState({
+      listArr: data,
+      isLoading: false
+    });
+  };
 
   render() {
-  const todoLists = this.state.todoListArr;
-  const { isLoading, todos, error } = this.state;
-  if(isLoading){
-    return <p>Loading...</p>;
-  }
-    return(
+    const { listArr, listId } = this.state;
+    // const { isLoading, todos, error } = this.state;
+    // if (isLoading) {
+    //   return <p>Loading...</p>;
+    // }
+
+    return (
       <fieldset className="container">
-
         <legend>Select Todo List</legend>
-        {todoLists.map(list =>
-          <TodoTitle onClick={this.onClick} name="selectedList" key={list.id} >{list.title} (<SmallText>{list.todoItems.length === 0 ? "empty" : list.todoItems.length}</SmallText>)</TodoTitle>
-        )}
-        <div>
-          {/*${JSON.stringify(this.state.todoLists)}*/}
-        </div>
+        {listArr.map(list => (
+          <TodoTitle onClick={() => this.click(list.id)} key={list.id}>
+            {list.title} (
+            <SmallText>
+              {list.todoItems.length === 0 ? "empty" : list.todoItems.length}
+            </SmallText>
+            )
+          </TodoTitle>
+        ))}
+        {this.state.selectedTodoListId !== null ? (
+          <List listId={this.state.listId} todos={listArr} />
+        ) : null}
       </fieldset>
-    )
+    );
   }
-
 }
 
 export default TodoLists;

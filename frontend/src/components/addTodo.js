@@ -1,6 +1,6 @@
-import React, { Component }  from 'react';
-import styled from 'styled-components';
-import '../App.css';
+import React, { Component } from "react";
+import styled from "styled-components";
+import "../App.css";
 
 const Input = styled.input`
   margin: 0.5em;
@@ -16,40 +16,65 @@ const Form = styled.form`
 `;
 
 class AddTodo extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
     this.state = {
-      todoListId: 0,
-      task: "",
-      date: ""
+      task: ""
+      // date: ""
     };
   }
 
   handleChange(e) {
-      this.setState({
+    this.setState({
       [e.target.name]: e.target.value
-      });
+    });
   }
 
-  handleSubmit(e) {
-    // console.log(`Todo added`);
+  handleSubmit(e) {
+    const fetchData = {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify({ content: this.state.task })
+    };
+    fetch(
+      `http://localhost:8001/api/todos/${this.props.listId}/items`,
+      fetchData
+    ).then(() => console.log("Todo added"));
+    // todo: add error handling
     e.preventDefault();
   }
 
+  addTodo(text) {
+    const fetchData = {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=utf-8" },
+      body: JSON.stringify({ text })
+    };
+    fetch(
+      `http://localhost:8001/api/todos/${this.state.listId}/items`,
+      fetchData
+    ).then(() => console.log("Todo added"));
+  }
 
   render() {
-        return(
-            <fieldset className="container">
-              <legend>Add todo</legend>
-              <Form onSubmit={e => this.handleSubmit(e)}>
-                <Input placeholder="Add Task" name="task"  onChange={this.handleChange}></Input>
-                <Input placeholder="Todo Date" type="date" name="date" onChange={this.handleChange}></Input>
-                <Button type="submit" value="Submit">Add</Button>
-              </Form>
-            </fieldset>
-          )
-      }
-};
+    return (
+      <div>
+        <p>Add todo</p>
+        <Form onSubmit={e => this.handleSubmit(e)}>
+          <Input
+            placeholder="Add Task"
+            name="task"
+            onChange={e => this.handleChange(e)}
+          />
+          {/*<Input placeholder="Todo Date" type="date" name="date" onChange={e => this.handleChange(e)}></Input>*/}
+          <Button type="submit" value="Submit">
+            Add
+          </Button>
+        </Form>
+      </div>
+    );
+  }
+}
 
 export default AddTodo;
-

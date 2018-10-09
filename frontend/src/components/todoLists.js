@@ -2,14 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import List from "./list";
 
-// const ListContainer = styled.fieldset`
-//   padding: 5px;
-//   margin: 10px;
-//   border: 1px solid black;
-//   max-width: 250px;
-//   display: flex;
-//   justify-content: center;
-// `;
 const TodoTitle = styled.div`
   padding: 5px;
   display: flex;
@@ -31,8 +23,7 @@ class TodoLists extends React.Component {
       isLoading: false,
       error: null,
       listArr: [],
-      listId: null,
-      selList: {}
+      listId: null
     };
   }
 
@@ -71,10 +62,10 @@ class TodoLists extends React.Component {
 
   render() {
     const { listArr, listId } = this.state;
-    // const { isLoading, todos, error } = this.state;
-    // if (isLoading) {
-    //   return <p>Loading...</p>;
-    // }
+    const { isLoading, todos, error } = this.state;
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
 
     return (
       <fieldset className="container">

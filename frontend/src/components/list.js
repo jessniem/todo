@@ -32,40 +32,43 @@ class todoList extends React.Component {
     super(props);
 
     this.state = {
-      currentTodo: {},
-      currentList: [],
-      selectedTodoList: this.props.listId,
       data: {},
-      selectedItem: null,
+      selectedTodoItem: null,
       test: null
     };
   }
 
-  componentDidMount() {
-    console.log(this.props);
-    if (this.props.listId !== null) {
-      fetch(`http://localhost:8001/api/todos/${this.props.listId}`)
-        .then(response => response.json())
-        .then(data => {
-          this.setList(data);
-        });
-    }
-  }
-  setList(data) {
-    console.log("runs setList");
-    this.setState({
-      currentTodo: data
-    });
-    this.setState({
-      currentList: this.state.currentTodo.todoItems
-    });
-  }
-
   click = id => {
     this.setState({
-      selectedItem: id
+      selectedTodoItem: id
     });
   };
+
+  // setCompleted(e) {
+  //   // fetch(`http://localhost:8001/api/todos//${this.state.currentTodo.id}/items/${this.state.selectedTodoItem}`)
+  //   fetch(
+  //     `http://localhost:8001/api/todos/${this.props.listId}/items/${
+  //       this.state.selectedTodoItem
+  //     }`
+  //   )
+  //     .then(response => response.json())
+  //     .then(data => this.setState({ data: data, selectedTodoItem: data }));
+  //   const fetchData = {
+  //     method: "PATCH",
+  //     headers: { "Content-Type": "application/json; charset=utf-8" },
+  //     body: JSON.stringify({ complete: true })
+  //   };
+  //   // fetch(`http://localhost:8001/api/todos/${this.state.currentTodo.id}/items/${this.state.selectedTodoItem}`, fetchData)
+  //   fetch(
+  //     `http://localhost:8001/api/todos/${this.props.listId}/items/4`,
+  //     fetchData
+  //   )
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       this.setList(data);
+  //     });
+  //   e.preventDefault();
+  // }
 
   deleteList(list) {
     const fetchData = {
@@ -95,8 +98,8 @@ class todoList extends React.Component {
     return (
       <div>
         <p>
-          selected item id:
-          {this.state.selectedItem}
+          selected todo item id:
+          {this.state.selectedTodoItem}
         </p>
         {list !== undefined ? (
           <fieldset className="container">
